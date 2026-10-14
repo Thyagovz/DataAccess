@@ -1,0 +1,54 @@
+## --- Compilação e Build ---
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+build/
+artifacts/
+
+## --- Configurações de Usuário e IDEs ---
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+## --- Pacotes e Dependências ---
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+project.lock.json
+project.fragment.lock.json
+
+## --- Testes e Cobertura de Código ---
+TestResults/
+*.intellitest
+*.suo
+*.user
+*.coverage
+*.coveragexml
+
+## --- Arquivos de Ambiente e Segredos Local ---
+appsettings.Development.json
+appsettings.Local.json
+*.env
+*.local
+
+## --- OS / Sistema Operacional ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
