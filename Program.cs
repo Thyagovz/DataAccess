@@ -14,9 +14,12 @@ class Program
 
         using (var connection = new SqlConnection(connectionString))
         {
-            UpdateCategory(connection);
+            // CreateCategory(connection);
+            // CreateManyCategory(connection);
+            // UpdateCategory(connection);
+            // DeleteCategory(connection);
             ListCategories(connection);
-            //CreateCategory(connection);
+            // GetCategory(connection);
         }
     }
 
@@ -27,6 +30,26 @@ class Program
         {
             Console.WriteLine($"{item.Id} - {item.Title}");
         }
+    }
+
+    static void GetCategory(SqlConnection connection)
+    {
+        var category = connection.QuerySingleOrDefault<Category>(
+            @"SELECT [Id], [Title], [Url], [Summary], [Order], [Description], [Featured]
+              FROM [Category]
+              WHERE [Id] = @id",
+            new
+            {
+                id = new Guid("af3407aa-11ae-4621-a2ef-2028b85507c4")
+            });
+
+        if (category is null)
+        {
+            Console.WriteLine("Categoria não encontrada");
+            return;
+        }
+
+        Console.WriteLine($"{category.Id} - {category.Title}");
     }
 
     static void CreateCategory(SqlConnection connection)
@@ -67,7 +90,7 @@ class Program
 
     static void UpdateCategory(SqlConnection connection)
     {
-        var updateQuery = "UPDATE[Category] SET [Title]=@title WHERE [Id]=@id";
+        var updateQuery = "UPDATE [Category] SET [Title] = @title WHERE [Id] = @id";
         var rows = connection.Execute(updateQuery, new
         {
             id = new Guid("af3407aa-11ae-4621-a2ef-2028b85507c4"),
@@ -76,4 +99,74 @@ class Program
 
         Console.WriteLine($"{rows} registros atualizados");
     }
+
+    static void DeleteCategory(SqlConnection connection)
+    {
+        var deleteQuery = "DELETE FROM [Category] WHERE [Id] = @id";
+        var rows = connection.Execute(deleteQuery, new
+        {
+            id = new Guid("d5944bed-02a9-4fd3-8e49-cbf7b8680425")
+        });
+
+        Console.WriteLine($"{rows} registros deletados");
+    }
+
+    static void CreateManyCategory(SqlConnection connection)
+    {
+        var category = new Category();
+        category.Id = Guid.NewGuid();
+        category.Title = "Amazon AWS";
+        category.Url = "amazon";
+        category.Description = "Categoria destinada a serviços do AWS";
+        category.Order = 8;
+        category.Summary = "AWS Cloud";
+        category.Featured = false;
+
+        var category2 = new Category();
+        category2.Id = Guid.NewGuid();
+        category2.Title = "Categoria Nova";
+        category2.Url = "categoria-nova";
+        category2.Description = "Categoria nova";
+        category2.Order = 9;
+        category2.Summary = "Categoria";
+        category2.Featured = true;
+
+        //SQL Injection Lembrar
+        var insertSql = @"INSERT INTO
+                [Category] 
+            VALUES(
+                @Id,
+                @Title,
+                @Url,
+                @Summary,
+                @Order,
+                @Description,
+                @Featured)";
+
+        var rows = connection.Execute(insertSql, new[]
+        {
+            new
+            {
+                category.Id,
+                category.Title,
+                category.Url,
+                category.Summary,
+                category.Order,
+                category.Description,
+                category.Featured
+            },
+            new
+            {
+                category2.Id,
+                category2.Title,
+                category2.Url,
+                category2.Summary,
+                category2.Order,
+                category2.Description,
+                category2.Featured
+            },
+        });
+        Console.WriteLine($"{rows} linhas inseridas");
+    }
+
 }
