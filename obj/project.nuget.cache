@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "WOTD33Jisdo=",
+  "dgSpecHash": "43XoM3vIMjU=",
   "success": true,
   "projectFilePath": "D:\\repos\\DataAccess\\DataAccess\\DataAccess.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\flood.SLEIPNIR\\.nuget\\packages\\dapper\\2.1.89\\dapper.2.1.89.nupkg.sha512",
     "C:\\Users\\flood.SLEIPNIR\\.nuget\\packages\\microsoft.bcl.cryptography\\9.0.18\\microsoft.bcl.cryptography.9.0.18.nupkg.sha512",
     "C:\\Users\\flood.SLEIPNIR\\.nuget\\packages\\microsoft.data.sqlclient\\7.1.1\\microsoft.data.sqlclient.7.1.1.nupkg.sha512",
     "C:\\Users\\flood.SLEIPNIR\\.nuget\\packages\\microsoft.data.sqlclient.extensions.abstractions\\7.1.1\\microsoft.data.sqlclient.extensions.abstractions.7.1.1.nupkg.sha512",
