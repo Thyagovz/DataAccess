@@ -20,7 +20,8 @@ class Program
             // DeleteCategory(connection);
             // ListCategories(connection);
             // GetCategory(connection);
-            ExecuteProcedure(connection);
+            // ExecuteProcedure(connection);
+            ExecuteReadProcedure(connection);
         }
     }
 
@@ -179,5 +180,20 @@ class Program
             pars,
             commandType: System.Data.CommandType.StoredProcedure);
         Console.WriteLine($"{affectedRows} linhas afetadas");
+    }
+
+    static void ExecuteReadProcedure(SqlConnection connection)
+    {
+        var procedure = "[spGetCoursesByCategory]";
+        var pars = new { @CategoryId = "09ce0b7b-cfca-497b-92c0-3290ad9d5142" };
+        var courses = connection.Query(
+            procedure,
+            pars,
+            commandType: System.Data.CommandType.StoredProcedure);
+        foreach (var item in courses)
+        {   
+            // Id trás os Guid
+            Console.WriteLine(item.Title);
+        }
     }
 }
