@@ -21,7 +21,8 @@ class Program
             // ListCategories(connection);
             // GetCategory(connection);
             // ExecuteProcedure(connection);
-            ExecuteReadProcedure(connection);
+            // ExecuteReadProcedure(connection);
+            ExecuteScalar(connection);
         }
     }
 
@@ -191,9 +192,48 @@ class Program
             pars,
             commandType: System.Data.CommandType.StoredProcedure);
         foreach (var item in courses)
-        {   
+        {
             // Id trás os Guid
             Console.WriteLine(item.Title);
         }
+    }
+
+    static void ExecuteScalar(SqlConnection connection)
+    {
+        var category = new Category();
+        category.Title = "Amazon AWS";
+        category.Url = "amazon";
+        category.Description = "Categoria destinada a serviços do AWS";
+        category.Order = 8;
+        category.Summary = "AWS Cloud";
+        category.Featured = false;
+
+        //SQL Injection Lembrar
+        var insertSql = @"
+            INSERT INTO
+                [Category] 
+            OUTPUT
+                inserted.[Id]    
+            VALUES(
+                NEWID(),
+                @Title,
+                @Url,
+                @Summary,
+                @Order,
+                @Description,
+                @Featured) 
+            SELECT
+                SCOPE_IDENTITY()";
+
+        var id = connection.ExecuteScalar<Guid>(insertSql, new
+        {
+            category.Title,
+            category.Url,
+            category.Summary,
+            category.Order,
+            category.Description,
+            category.Featured
+        });
+        Console.WriteLine($"A categoria inserida foi: {id}");
     }
 }
