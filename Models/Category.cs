@@ -1,5 +1,5 @@
-namespace DataAccess.Models
-{
+namespace DataAccess.Models;
+
     public class Category
     {
         public Guid Id { get; set; }
@@ -10,4 +10,3 @@ namespace DataAccess.Models
         public string Description { get; set; } = string.Empty;
         public bool Featured { get; set; }
     }
-}
