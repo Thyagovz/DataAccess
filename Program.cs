@@ -262,11 +262,18 @@ class Program
             ON
                 [CareerItem].[CourseId] = [Course].[Id];";
 
-        var Items = connection.Query(sql);
+        var items = connection.Query<CareerItem, Course, CareerItem>(
+            sql,
+            (careerItem, course) =>
+            {
+                careerItem.Course = course;
+                return careerItem;
+            }, splitOn: "Id");
 
-        foreach (var item in Items)
+
+        foreach (var item in items)
         {
-            Console.WriteLine(item.DurationInMinutes);
+            Console.WriteLine($"{item.Title} - Curso: {item.Course.Title}");
         }
     }
 }
