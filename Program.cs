@@ -26,7 +26,9 @@ class Program
             // ExecuteScalar(connection);
             // ReadView(connection);
             // OneToOne(connection);
-            OneToMany(connection);
+            // OneToMany(connection);
+            // QueryMultiple(connection);
+            SelectIn(connection);
         }
     }
 
@@ -311,7 +313,7 @@ class Program
                 {
                     car.Items.Add(item);
                 }
-                  
+
                 return career;
             }, splitOn: "CareerId");
 
@@ -322,6 +324,46 @@ class Program
             {
                 Console.WriteLine($" - {item.Title}");
             }
+        }
+    }
+
+    static void QueryMultiple(SqlConnection connection)
+    {
+        var query = "SELECT * FROM [Category]; SELECT * FROM [COURSE]";
+
+        using (var multi = connection.QueryMultiple(query))
+        {
+            var categories = multi.Read<Category>();
+            var courses = multi.Read<Course>();
+
+            foreach (var item in categories)
+            {
+                Console.WriteLine(item.Title);
+            }
+
+            foreach (var item in courses)
+            {
+                Console.WriteLine(item.Title);
+            }
+        }
+    }
+
+    static void SelectIn(SqlConnection connection)
+    {
+        var query = @"SELECT TOP 10 * FROM Career where [Id] IN @Id";
+
+        var items = connection.Query<Career>(query, new
+        {
+            Id = new[]
+            {
+                "4327ac7e-963b-4893-9f31-9a3b28a4e72b",
+                "e6730d1c-6870-4df3-ae68-438624e04c72"
+            }
+        });
+
+        foreach (var item in items)
+        {
+            Console.WriteLine(item.Title);
         }
     }
 }
