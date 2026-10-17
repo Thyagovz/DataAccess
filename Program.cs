@@ -374,6 +374,7 @@ class Program
 
         var items = connection.Query<Course>(query, new
         {
+            //dentro de um escopo seguro
             exp = $"%{term}%"
         });
 
